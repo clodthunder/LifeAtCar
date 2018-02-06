@@ -1,6 +1,7 @@
 package com.lskj.ct.lifeatcar.ui.main;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -36,6 +37,20 @@ public class MainActivity extends BaseActivity {
     private String TAG = "MainActivity";
     //    退出记时：第一次点击back
     private long firstClickTime;
+
+    @Override
+    protected void initActionBar() {
+//        设置actionbar
+        ActionBar actionBar = getSupportActionBar();
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View customer = inflater.inflate(R.layout.view_customer_actionbar, null);
+        ((TextView) customer.findViewById(R.id.ab_cus_title)).setText("车生活");
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(customer,
+                new ActionBar.LayoutParams(android.app.ActionBar.LayoutParams.WRAP_CONTENT,
+                        android.app.ActionBar.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER));
+    }
 
     @Override
     protected void initView() {
@@ -91,23 +106,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-//        设置actionbar
-        ActionBar actionBar = getSupportActionBar();
-
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customer = inflater.inflate(R.layout.view_customer_actionbar, null);
-        ((TextView) customer.findViewById(R.id.ab_cus_title)).setText("车生活");
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(customer,
-                new ActionBar.LayoutParams(android.app.ActionBar.LayoutParams.WRAP_CONTENT,
-                        android.app.ActionBar.LayoutParams.MATCH_PARENT,
-                        Gravity.CENTER));
-//        actionBar.setDisplayShowTitleEnabled(true);
-
-//        if (actionBar != null) {
-//            actionBar.setTitle("车生活");
-//            setTitleColor(Color.WHITE);
-//        }
 
         mFragmentLists = new ArrayList<>();
         mFragmentLists.add(HomeFragment.getInstance());
@@ -182,8 +180,23 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onNetDisconnected() {
-        Snackbar.make(findViewById(R.id.view_main_root), "网络断开", Snackbar.LENGTH_SHORT)
-                .show();
+        final Snackbar snackbar =
+                Snackbar.make(findViewById(R.id.cdl_main),
+                        "网络断开", Snackbar.LENGTH_LONG);
+        View view = snackbar.getView();
+        view.setBackgroundColor(Color.RED);
+        TextView msgTc = view.findViewById(R.id.snackbar_text);
+        msgTc.setTextColor(Color.WHITE);
+        msgTc.setGravity(Gravity.CENTER);
+        msgTc.setTextSize(16);
+        snackbar.setAction("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.setActionTextColor(Color.GREEN);
+        snackbar.show();
     }
 
     @Override

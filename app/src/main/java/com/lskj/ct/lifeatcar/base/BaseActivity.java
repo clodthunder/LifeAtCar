@@ -19,9 +19,15 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        initActionBar();
         initData();
         setListener();
     }
+
+    /**
+     * 初始化actionBar
+     */
+    protected abstract void initActionBar();
 
     /**
      * 初始化view 组件

@@ -23,6 +23,11 @@ public class IntroduceActivity extends BaseActivity {
 
 
     @Override
+    protected void initActionBar() {
+
+    }
+
+    @Override
     protected void initView() {
         setContentView(R.layout.activity_introduce);
         mVpContainer = findViewById(R.id.vp_introduce);
