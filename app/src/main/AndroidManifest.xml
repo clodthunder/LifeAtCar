@@ -2,19 +2,65 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lskj.ct.lifeatcar">
 
+    <!--实现网络数据访问-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--网络变化权限-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--Read storage-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--write storage-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <!--配置渠道-->
+    <!--<meta-data-->
+    <!--android:name="UMENG_CHANNEL"-->
+    <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
+
     <application
+        android:name=".app.LifeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme.Base">
+        <!--ali hoxfix start-->
+        <meta-data
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="24794169" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="408f92f2b9239e6b040f30fbbd399ee7" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.RSASECRET"
+            android:value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZiUEz0yWuVgerlDhDTp00bmU/B+fPAome6GjdBcCH0po3OGqhBugQoxm+OshUCTwxDbxHlFYh/ION1Gj2O4KJeCZn82qqH/SvE2mZEKalsRsAa9nHunNSvpz9EVCCqAYQIjP0Fv0AteasQ6toEkLTTl0d8BuyNiBDF8o/S1nSs4DJia0DvL1VCcSkN2VBQZQ7qZ5nTZc+UCLVZflZFvKMVCrrdmq065Y8pzT26cAeHh7cI4XTsXRB8Y26kauSEoJLF9mm7IFyayJnTR2UJjr9I3AVHJWwqBrd0rfmuK/C3Dpx3xv0myF8NyzaMtaEGRc3rH+f2y6yUcxZ6D5dWoHTAgMBAAECggEAdgBgZXVVk4y5LmynZUuJVR+3nt7zkU1w+fnDhoOCOqFpNyGcChCl0QuZoHPLPZMveMAGwbjHDi3l6d6joQORyxfV5LTXeNNAmkJAOYzrl5LrnsJFSdUKB0FKpNFm4FRE/Kdc6K+2WZJ0LFeB6GWIiKDEvlqo3qns18P0A/tkmKN+hhPWvD+1qocg7sVk89YsGfYkQFEuTwJ890fcyLbKDaB4QgeGyV2sHsSbqDDcmWlftlJFaI1iOw2FODu7psyG/YWXvfSGhCE+nMZVwcwz/OU67pgK956ZaSAt4hXg7wshj/PvqSHm9bmk7Qdc+K0q9wsORqAtHqYxqPIqmuwlyQKBgQDIq/+8KULf+7tqfQs5RXoQM1/cFSHJXxoxRpXyZAWXkaiNY2D3Kcm97zHCTGlzFykWXRHn5Sqh3++bj+IxFkLQcE7T2Md7S5OspGhQP6Fqa6+8Lz37kw8/NfyMDSBq0tEsJT9rlNdxS6baJAIxO/0F5gD19dJ49mXT+GZw0BZ2DwKBgQDD3kfB8QuMstxQX/PVc/L7RaM8OOIuXfv88Z36xDzFbgpOzmvmfqcA9IbX1tASV+VeSlU9p67P3BXRLsBvKYeqsCUv7mWRu+MMpSa6vNuDUFV/lGRqg8R9tlV+I6XdZxMmMRGuWId3IBk3eJ/UiIzCKxa50ooHtJNyaSmDHkfb/QKBgDI+ZnydNCJSrB1Ai8PeMm7F/jVjkR8TUcKOstKK2p+Vl8c237ti2iFVN3c3nJt1bBMuYGJYjbEUGbEweGjj8vyvcf025NNpG+N5EqktFWRI7CpJBdLsgj/Ia6BBVSGKAVd1SAjOrpauY2tw4p+jLnoAmbL7xqQExYAqTLPoVgdfAoGBAKgF2tDIkvvTw6M/bNDDcsGS74EN2xmjjjNiof8osGk9CKKp+W31YBY1riciI8RYmm7UnWMSoae2SRD1Zib2HWeTS5Neksr9vrxuQFcZA8YV+AJFrg6hksG01Ios0nCnp4mvtlc1op/SbU9krteHfBhlFk26CqaphYM0K2RLaaGRAoGAEtbj5C+C51/LPorEpyNFj6BZYb5SkwPChaa/8B/5mymlimFMIPr5Ce4eW+im5JXJGgUmyssa1V7CHJvG5NJsWnNvLhxOhrwRvCwcDIqldxdS/7XoBKwkF+4kObOPCfBm9589nat+ecyR2E6mXXIZ9629rp5eF3aZG0u7MYU3BfU=" />
+        <!--ali hoxfix end-->
+
+        <!--app 启动页面-->
+        <activity
+            android:name=".ui.introduce.LoadingActivity"
+            android:configChanges="keyboardHidden|keyboard|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <!--introduce-->
+        <activity
+            android:name=".ui.introduce.IntroduceActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreen"></activity>
+        <!--main-->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
+
         </activity>
     </application>
 

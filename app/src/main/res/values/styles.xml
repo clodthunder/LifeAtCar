@@ -1,11 +1,57 @@
 <resources>
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!--actionbar title style-->
+        <!--<item name="titleTextStyle"></item>-->
+        <!--&lt;!&ndash;修改 overflow的图标&ndash;&gt;-->
+        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <!--修改 overflow的位置 背景颜色 -->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <!--修改 optionMenu 文本颜色 整体-->
+        <item name="android:itemTextAppearance">@style/CustomMenuTextApearance</item>
     </style>
+
+    <style name="ActionBarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <!--<item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>-->
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--&lt;!&ndash;修改 overflow的图标&ndash;&gt;-->
+    <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert_white_24dp</item>
+    </style>
+
+    <!--&lt;!&ndash;修改 overflow的位置 背景颜色 &ndash;&gt;-->
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownWidth">100dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <!--<item name="android:actionMenuTextColor">#060aff</item>-->
+        <!--<item name="android:popupBackground">?attr/colorPrimary</item>-->
+    </style>
+    <!--&lt;!&ndash;修改 optionMenu 文本颜色 整体&ndash;&gt;-->
+    <style name="CustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <!--<item name="android:textColor">#fff</item>-->
+    </style>
+
+    <!--实现全屏 -->
+    <style name="FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="radio_bottom_style">
+        <item name="android:background">@drawable/radio_bottom_bg</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--indicator-->
 
 </resources>

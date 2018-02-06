@@ -1,38 +1,145 @@
 apply plugin: 'com.android.application'
 
+Properties props = new Properties()
+props.load(new FileInputStream(file("signing.properties")))
+
+//拼接时间apk打包的时候附带apk 生成的时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.lskj.ct.lifeatcar"
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++14"
             }
         }
+        // Enabling multidex support
+        multiDexEnabled true
     }
+    signingConfigs {
+        release {
+            keyAlias props['KEY_ALIAS']
+            keyPassword props['KEY_PASSWORD']
+            storeFile file(props['KEYSTORE_FILE'])
+            storePassword props['KEYSTORE_PASSWORD']
+        }
+        debug {
+            keyAlias props['KEY_ALIAS']
+            keyPassword props['KEY_PASSWORD']
+            storeFile file(props['KEYSTORE_FILE'])
+            storePassword props['KEYSTORE_PASSWORD']
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+// 加速gradle 构建
+    dexOptions {
+        preDexLibraries true
+        javaMaxHeapSize "4g" //最主要是这句, 不过改成8g没有更显著的提升
+    }
+
+    // 为了解决部分第三方库重复打包了META-INF的问题
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
         }
     }
+    lintOptions {
+        //lint 遇到 error 时继续 构建
+        abortOnError false
+        //build release 版本 时 开启lint 检测
+        checkReleaseBuilds false
+        // 防止在发布的时候出现因MissingTranslation导致Build Failed!
+        disable 'MissingTranslation'
+    }
+//指定编译工具的版本
+    buildToolsVersion rootProject.ext.buildToolsVersion;
+
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output ->
+                    outputFileName = releaseTime() + "-${variant.name}-${variant.versionName}.apk"
+            }
+    }
+}
+
+//解决依赖冲突问题
+//gradle 依赖修改默认策略：引用最高版本
+// 添加后：如果依赖出现版本冲突 会直接打印出
+configurations.all {
+    resolutionStrategy {
+        failOnVersionConflict()
+        force "com.android.support:support-annotations:$rootProject.ext.supportLibraryVersion"
+        force 'com.google.code.findbugs:jsr305:2.0.1'
+        force 'io.reactivex.rxjava2:rxjava:2.1.5'
+        force "com.android.support:support-compat:$rootProject.ext.supportLibraryVersion"
+        force "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+        force 'com.google.auto:auto-common:0.6'
+        force "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    }
+
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+    //    这里有依赖的ToolBar
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.jakewharton.timber:timber:4.6.0'
+    //    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    //    #retrofit2
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    //    picasso 图片加载框架
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    //butterknife
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    //    分包
+    implementation 'com.android.support:multidex:1.0.2'
+    // 阿里云热更新
+    // https://help.aliyun.com/document_detail/53240.html?spm=a2c4g.11186623.2.3.byPXGs#1.2.1
+    // android studio%E9%9B%86%E6%88%90%E6%96%B9%E5%BC%8F
+    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.0'
+    //    debug
+    implementation('com.facebook.stetho:stetho-okhttp3:1.5.0') {
+        exclude group: 'com.squareup.okhttp3'
+    }
+    implementation project(':indicator')
+
 }

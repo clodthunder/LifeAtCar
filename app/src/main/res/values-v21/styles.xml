@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--&lt;!&ndash;修改 overflow的图标&ndash;&gt;-->
+        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <!--修改 overflow的位置 背景颜色 -->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <!--修改 optionMenu 文本颜色 整体-->
+        <item name="android:itemTextAppearance">@style/CustomMenuTextApearance</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+
+    </style>
+
+    <style name="FullScreen" parent="@style/Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="radio_bottom_style">
+        <item name="android:background">@drawable/radio_bottom_bg</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+</resources>
