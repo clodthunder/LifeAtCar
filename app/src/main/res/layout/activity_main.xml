@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_main_root"
     android:layout_width="match_parent"
@@ -21,48 +22,15 @@
             android:id="@+id/cdl_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
             android:focusable="false" />
     </FrameLayout>
 
-
-    <RadioGroup
-        android:id="@+id/rg_main_container"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnmv_main"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rbtn_home"
-            style="@style/radio_bottom_style"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/home" />
-
-        <RadioButton
-            android:id="@+id/rbtn_iou"
-            style="@style/radio_bottom_style"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/iou" />
-
-        <RadioButton
-            android:id="@+id/rbtn_insurance"
-            style="@style/radio_bottom_style"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/Insurance" />
-
-        <RadioButton
-            android:id="@+id/rbtn_mine"
-            style="@style/radio_bottom_style"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/mine" />
-    </RadioGroup>
-
+        android:layout_height="wrap_content"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/bottom_nav_selector"
+        app:itemTextColor="@color/bottom_nav_selector"
+        app:menu="@menu/bottom_main_menu" />
 </LinearLayout>

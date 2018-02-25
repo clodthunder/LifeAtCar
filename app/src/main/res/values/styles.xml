@@ -1,24 +1,31 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <!--actionbar title style-->
-        <!--<item name="titleTextStyle"></item>-->
+        <item name="titleTextStyle">@style/ActionBarTitle</item>
+        <!--actionbar left icon-->
+        <item name="colorControlNormal">@android:color/black</item>
+        <!-- 启用叠加模式 当 actionBar 隐藏或显示时，系统不再需要调整布局而是无缝过渡-->
+        <!--<item name="windowActionBarOverlay">true</item>-->
         <!--&lt;!&ndash;修改 overflow的图标&ndash;&gt;-->
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <!--修改 overflow的位置 背景颜色 -->
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
         <!--修改 optionMenu 文本颜色 整体-->
         <item name="android:itemTextAppearance">@style/CustomMenuTextApearance</item>
+        <!--下段代码sdk 21 以下就是去除阴影的-->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--返回icon-->
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_black_24dp</item>
     </style>
 
     <style name="ActionBarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
         <!--<item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>-->
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <!--&lt;!&ndash;修改 overflow的图标&ndash;&gt;-->
@@ -47,11 +54,6 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="radio_bottom_style">
-        <item name="android:background">@drawable/radio_bottom_bg</item>
-        <item name="android:button">@null</item>
-        <item name="android:gravity">center</item>
-    </style>
     <!--indicator-->
 
 </resources>

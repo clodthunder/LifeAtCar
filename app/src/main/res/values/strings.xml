@@ -7,4 +7,6 @@
     <string name="mine">我的</string>
     <string name="phone_service">电话客服</string>
     <string name="question">问题</string>
+    <string name="str_setting">设置</string>
+    <string name="str_register_rules">请阅读《车生活服务条款》</string>
 </resources>

@@ -23,6 +23,11 @@ public class InsuranceFragment extends Fragment {
         return instance;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
+    }
 
     @Nullable
     @Override

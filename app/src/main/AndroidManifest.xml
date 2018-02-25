@@ -11,7 +11,6 @@
     <!--write storage-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <!--配置渠道-->
     <!--<meta-data-->
     <!--android:name="UMENG_CHANNEL"-->
@@ -54,14 +53,71 @@
             android:name=".ui.introduce.IntroduceActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen"></activity>
+            android:theme="@style/FullScreen" />
         <!--main-->
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!--setting-->
+        <activity
+            android:name=".ui.settings.SettingActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <!--personal-->
+        <activity
+            android:name=".ui.mine.PersonalActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <!--myBank-->
+        <activity
+            android:name=".ui.bank.MyBankActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <!--my cars-->
+        <activity
+            android:name=".ui.cars.MyCarsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <!--my news-->
+        <activity
+            android:name=".ui.news.MyNewsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <!--my oil-->
+        <activity
+            android:name=".ui.oil.MyOilActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <!--my discount cards-->
+        <activity
+            android:name=".ui.discount.DiscountCardActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.account.RegisterActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.account.LoginActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.account.ForgetActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:parentActivityName=".ui.account.LoginActivity"
+            android:screenOrientation="portrait" />
 
-        </activity>
     </application>
 
 </manifest>

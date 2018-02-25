@@ -1,13 +1,15 @@
 package com.lskj.ct.lifeatcar.app;
 
-import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 import com.lskj.ct.lifeatcar.BuildConfig;
 import com.lskj.ct.lifeatcar.log.FakeCrashLibrary;
+import com.lskj.ct.lifeatcar.model.UserModel;
 import com.lskj.ct.lifeatcar.network.receiver.NetStateChangeReceiver;
+import com.lzy.okgo.OkGo;
 import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixManager;
 import com.taobao.sophix.listener.PatchLoadStatusListener;
@@ -18,21 +20,35 @@ import timber.log.Timber;
  * Created by thunder on 2018/2/3.
  */
 
-public class LifeApp extends Application {
-    public static Application app;
+public class LifeApp extends MultiDexApplication {
+    private UserModel user = null;
+    private static LifeApp instance;
+
+    public static LifeApp getInstance() {
+        return instance;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
 
     @Override
+
     public void onCreate() {
         super.onCreate();
-
-        app = this;
+        instance = this;
 //        init timer log framework
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
             Timber.plant(new CrashReportingTree());
         }
-
+        //初始化网络框架
+        OkGo.getInstance().init(this);
         //debug
         Stetho.initializeWithDefaults(this);
         //注册网络广播
@@ -71,6 +87,7 @@ public class LifeApp extends Application {
             }
         }
     }
+
 
     /**
      * 初始化阿里云的热更新

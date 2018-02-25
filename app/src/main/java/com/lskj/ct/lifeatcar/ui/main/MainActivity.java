@@ -1,28 +1,35 @@
 package com.lskj.ct.lifeatcar.ui.main;
 
-import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lskj.ct.lifeatcar.R;
 import com.lskj.ct.lifeatcar.base.BaseActivity;
 import com.lskj.ct.lifeatcar.network.enums.NetWorkType;
+import com.lskj.ct.lifeatcar.otto.OttoHelper;
+import com.lskj.ct.lifeatcar.otto.MainMsgEvent;
 import com.lskj.ct.lifeatcar.ui.main.fragments.HomeFragment;
 import com.lskj.ct.lifeatcar.ui.main.fragments.IOUFragment;
 import com.lskj.ct.lifeatcar.ui.main.fragments.InsuranceFragment;
 import com.lskj.ct.lifeatcar.ui.main.fragments.MineFragment;
+import com.lskj.ct.lifeatcar.utils.BottomNavigationViewHelper;
+import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,36 +39,59 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
     private ViewPager mViewPagerContainer;
     private MVpAdapter mVpAdapter;
-    private RadioGroup mRadioGroup;
+    private BottomNavigationView mNavView;
     private List<Fragment> mFragmentLists;
     private String TAG = "MainActivity";
     //    退出记时：第一次点击back
     private long firstClickTime;
+    private ActionBar actionBar;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void initActionBar() {
-//        设置actionbar
-        ActionBar actionBar = getSupportActionBar();
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customer = inflater.inflate(R.layout.view_customer_actionbar, null);
-        ((TextView) customer.findViewById(R.id.ab_cus_title)).setText("车生活");
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(customer,
-                new ActionBar.LayoutParams(android.app.ActionBar.LayoutParams.WRAP_CONTENT,
-                        android.app.ActionBar.LayoutParams.MATCH_PARENT,
-                        Gravity.CENTER));
+        actionBar = getMineActionBar();
+//        不显示返回图标
+        actionBar.setDisplayOptions(
+                ActionBar.DISPLAY_SHOW_CUSTOM,
+                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
+        //设置actionBar 的居中标题
+        setTitle("车生活");
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
+        OttoHelper.getInstance().register(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+//        if (mViewPagerState != null) {
+//            mViewPagerContainer.onRestoreInstanceState(mViewPagerState);
+//            mViewPagerState = null;
+//        }
     }
 
     @Override
     protected void initView() {
-        setContentView(R.layout.activity_main);
         mViewPagerContainer = findViewById(R.id.vp_main_container);
-        mRadioGroup = findViewById(R.id.rg_main_container);
+        mNavView = findViewById(R.id.bnmv_main);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -89,24 +119,9 @@ public class MainActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menu_phone_service:
-                Toast.makeText(this, "电话客服", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menu_question:
-                Toast.makeText(this, "问题咨询", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     protected void initData() {
-
         mFragmentLists = new ArrayList<>();
         mFragmentLists.add(HomeFragment.getInstance());
         mFragmentLists.add(IOUFragment.getInstance());
@@ -118,8 +133,12 @@ public class MainActivity extends BaseActivity {
         mViewPagerContainer.setAdapter(mVpAdapter);
         mViewPagerContainer.setOffscreenPageLimit(3);
         //默认选中第一项
-        mViewPagerContainer.setCurrentItem(0);
-        ((RadioButton) mRadioGroup.getChildAt(0)).setChecked(true);
+        BottomNavigationViewHelper.disableShiftMode(mNavView);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -132,7 +151,21 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                ((RadioButton) mRadioGroup.getChildAt(position)).setChecked(true);
+                mNavView.getMenu().getItem(position).setChecked(true);
+                switch (position) {
+                    case 0:
+                        changeActionBarState("车生活", R.color.colorPrimary, true);
+                        break;
+                    case 1:
+                        changeActionBarState("广发白条", R.color.colorPrimary, true);
+                        break;
+                    case 2:
+                        changeActionBarState("车险", R.color.colorPrimary, true);
+                        break;
+                    case 3:
+                        changeActionBarState(null, R.color.orange_fd9827, false);
+                        break;
+                }
             }
 
             @Override
@@ -141,33 +174,43 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rbtn_home:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_main_home:
                         mViewPagerContainer.setCurrentItem(0, false);
                         break;
-                    case R.id.rbtn_iou:
+                    case R.id.menu_main_intr:
                         mViewPagerContainer.setCurrentItem(1, false);
                         break;
-                    case R.id.rbtn_insurance:
+                    case R.id.menu_main_car:
                         mViewPagerContainer.setCurrentItem(2, false);
                         break;
-                    case R.id.rbtn_mine:
+                    case R.id.menu_main_mine:
                         mViewPagerContainer.setCurrentItem(3, false);
                         break;
                 }
+                return true;
             }
         });
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
+
+    @Override
     public void onBackPressed() {
 //        * 连续点击back按钮退出app
-        if (System.currentTimeMillis() - firstClickTime > 2000) {
-            firstClickTime = System.currentTimeMillis();
+        long clickTime = System.currentTimeMillis();
+        if (clickTime - firstClickTime > 2000) {
+            firstClickTime = clickTime;
             Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+            OttoHelper.getInstance().post(onMainMsgEvent());
         } else {
             System.exit(0);
         }
@@ -201,5 +244,24 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onNetConnected(NetWorkType networkType) {
+    }
+
+    @Produce
+    public MainMsgEvent onMainMsgEvent() {
+        return new MainMsgEvent(3);
+    }
+
+    @Subscribe
+    public void onResiverMsg(MainMsgEvent event) {
+        Toast.makeText(this, "" + event.position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+
+    protected void onDestroy() {
+        OttoHelper.getInstance().unregister(this);
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: unregister");
+
     }
 }

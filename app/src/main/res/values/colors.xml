@@ -7,4 +7,9 @@
     <color name="colorAccent">#0e6b07</color>
     <color name="statusBarColor">#0a0909</color>
     <color name="white">#fff</color>
+    <!---->
+    <color name="gray_text_color">#676767</color>
+    <!---->
+    <color name="orange_fd9827">#FD9827</color>
+    <color name="blue">#0000ee</color>
 </resources>

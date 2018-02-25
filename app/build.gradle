@@ -102,6 +102,9 @@ configurations.all {
         force "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
         force 'com.google.auto:auto-common:0.6'
         force "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+        force 'com.android.support:multidex:1.0.1'
+        force 'com.squareup.retrofit2:retrofit:2.3.0'
+        force 'com.google.code.gson:gson:2.8.2'
     }
 
 }
@@ -123,15 +126,13 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.6.0'
     //    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.google.code.gson:gson:2.8.2'
-    //    #retrofit2
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     //    picasso 图片加载框架
     implementation 'com.squareup.picasso:picasso:2.5.2'
     //butterknife
     implementation 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //    分包
-    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.android.support:multidex:1.0.1'
     // 阿里云热更新
     // https://help.aliyun.com/document_detail/53240.html?spm=a2c4g.11186623.2.3.byPXGs#1.2.1
     // android studio%E9%9B%86%E6%88%90%E6%96%B9%E5%BC%8F
@@ -140,6 +141,7 @@ dependencies {
     implementation('com.facebook.stetho:stetho-okhttp3:1.5.0') {
         exclude group: 'com.squareup.okhttp3'
     }
+    implementation 'com.squareup:otto:1.3.8'
     implementation project(':indicator')
-
+    implementation 'com.lzy.net:okgo:3.0.4'
 }

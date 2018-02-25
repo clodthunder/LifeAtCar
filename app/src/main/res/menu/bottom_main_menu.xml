@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_main_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="首页"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_main_intr"
+        android:enabled="true"
+        android:icon="@drawable/ic_verified_user_black_24dp"
+        android:title="白条"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_main_car"
+        android:enabled="true"
+        android:icon="@drawable/ic_directions_car_black_24dp"
+        android:title="车辆"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_main_mine"
+        android:enabled="true"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="我的"
+        app:showAsAction="ifRoom" />
+
+</menu>
